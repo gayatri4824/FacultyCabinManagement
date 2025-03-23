@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 const facultyBlocks = [
@@ -12,6 +13,7 @@ const Calendar = () => {
   const [cabins, setCabins] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchCabins(selectedBlock);
@@ -27,6 +29,10 @@ const Calendar = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleCabinClick = (cabinId) => {
+    navigate(`/cabin/${cabinId}`);
   };
 
   return (
@@ -53,6 +59,7 @@ const Calendar = () => {
             <div
               key={cabin._id}
               className={`calendar-cell ${cabin.isOccupied ? "occupied" : "available"}`}
+              onClick={() => handleCabinClick(cabin._id)}
             >
               {cabin.number}
             </div>
@@ -64,4 +71,3 @@ const Calendar = () => {
 };
 
 export default Calendar;
-
